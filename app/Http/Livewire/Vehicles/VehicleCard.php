@@ -4,17 +4,18 @@ namespace App\Http\Livewire\Vehicles;
 
 use App\Models\Vehicle;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class VehicleCard extends Component
 {
-    private $orderBy = '';
-    private $orderByValue = '';
+    use WithPagination;
+
     public $categoryId = '';
     public $opc = '';
+    public $pages = '16';
 
     public function render()
     {
-        $pages = 12;
         $columns = [
             'transmissions',
             'categories',
@@ -23,54 +24,15 @@ class VehicleCard extends Component
             'conditions',
             'makeModels.makes'
         ];
-
-        switch ($this->opc) {
-            case '1':
-                $this->orderBy = 'price';
-                $this->orderByValue = 'DESC';
-                break;
-            case '2':
-                $this->orderBy = 'price';
-                $this->orderByValue = 'ASC';
-                break;
-            case '3':
-                $this->orderBy = 'model_name';
-                $this->orderByValue = 'DESC';
-                break;
-            case '4':
-                $this->orderBy = 'model_name';
-                $this->orderByValue = 'ASC';
-                break;
-        }
-
-
-        if ($this->orderBy != '' && $this->categoryId != '') {
-            $vehicles = Vehicle::with($columns)
-                ->join('make_models', 'make_models.id', '=', 'vehicles.make_models_id')
-                ->where('categories_id',  $this->categoryId)
-                ->orderBy($this->orderBy, $this->orderByValue)
-                ->get();
-        } else {
-            $vehicles = Vehicle::with($columns)
-                ->where('categories_id',  $this->categoryId)->get();
-        }
-
-
-        if ($this->categoryId == '') {
-            $vehicles = Vehicle::with($columns)
-                ->orderBy('id', 'DESC')
-                ->paginate($pages);
-        }
-        
-        if ($this->categoryId == '' && $this->orderBy != '') {
-            $vehicles = Vehicle::with($columns)
-                ->join('make_models', 'make_models.id', '=', 'vehicles.make_models_id')
-                ->orderBy($this->orderBy, $this->orderByValue)
-                ->paginate($pages);
-        }
-
-
+        $vehicles = Vehicle::with($columns)
+            ->joinMakeModel($this->opc)
+            ->category($this->categoryId)
+            ->paginate($this->pages);
 
         return view('livewire.vehicles.vehicle-card', compact('vehicles'));
+    }
+    public function reset_page()
+    {
+        $this->resetPage();
     }
 }

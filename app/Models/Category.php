@@ -10,6 +10,11 @@ class Category extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function vehicles()
     {
         return $this->hasMany(Vehicle::class);

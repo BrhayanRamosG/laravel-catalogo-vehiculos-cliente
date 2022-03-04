@@ -11,6 +11,37 @@ class Vehicle extends Model
 
     protected $guarded = ['id'];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+    //Scopes
+    public function scopeJoinMakeModel($query, $opc)
+    {
+        if ($opc == '1' || $opc == '2') {
+            $orderBy = 'price';
+            $opc == '1' ? $orderByValue = 'DESC' : $orderByValue = 'ASC';
+        } elseif ($opc == '3' || $opc == '4') {
+            $orderBy = 'model_name';
+            $opc == '3' ? $orderByValue = 'DESC' : $orderByValue = 'ASC';
+        } elseif ($opc == '5' || $opc == '6') {
+            $orderBy = 'year';
+            $opc == '5' ? $orderByValue = 'DESC' : $orderByValue = 'ASC';
+        } else {
+            $orderBy = 'vehicles.id';
+            $orderByValue = 'DESC';
+        }
+
+        return $query->join('make_models', 'make_models.id', '=', 'vehicles.make_models_id')->orderBy($orderBy, $orderByValue);
+    }
+    public function scopeCategory($query, $categoryId)
+    {
+        if ($categoryId) {
+            return $query->where('categories_id',  $categoryId);
+        }
+    }
+
+    //Relationships
     public function user()
     {
         return $this->belongsTo(User::class);

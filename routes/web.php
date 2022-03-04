@@ -37,7 +37,7 @@ Route::middleware('throttle:60,1')->prefix('vehiculos')->group(function () {
     Route::get('/seminuevos-usados', [VehicleController::class, 'seminew_used_vehicles'])
         ->name('seminew-used-vehicles');
 
-    Route::get('/nuevos-agencia', [VehicleController::class, 'new_vehicles'])
+    Route::get('/nuevos-de-agencia', [VehicleController::class, 'new_vehicles'])
         ->name('new-vehicles');
 
     Route::get('/remates', [VehicleController::class, 'cheap_vehicles'])

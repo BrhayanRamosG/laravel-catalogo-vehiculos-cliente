@@ -1,20 +1,6 @@
-<div class="max-w-2xl mx-auto py-16 px-4 sm:py-12 sm:px-6 lg:max-w-7xl lg:px-8">
-    <div class="grid grid-cols-2 gap-4">
-        <div class="">
-            <x-search wire:change="reset_page" wire:model="opc" title="Ordenar por:" :options="[
-            '0'=>'Fecha publicación',
-            '1'=>'Mayor precio',
-            '2'=>'Menor precio',
-            '3'=>'Modelo Z-A',
-            '4'=>'Modelo A-Z',
-            '5'=>'Más reciente',
-            '6'=>'Más antiguo'
-            ]" />
-        </div>
-    </div>
-
-    <div class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-6 mt-5">
-        @foreach ($vehicles as $vehicle)
+<div class="max-w-2xl mx-auto py-8 px-4 sm:py-12 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-6">
+        @foreach ($homevehicles as $vehicle)
             <a href="{{ route('detailvehicle', [$vehicle, $vehicle->categories->slug]) }}"
                 class="dark:bg-gray-700 hover:shadow-md dark:hover:shadow-gray-500 group shadow dark:shadow-gray-500">
                 <div
@@ -64,15 +50,5 @@
                 </p>
             </a>
         @endforeach
-
-        {{-- {{ $vehicle->transmissions->transmission_name }}
-        {{ $vehicle->categories->category_name }}
-        {{ $vehicle->paymentMethods->payment_method_name }}
-        {{ $vehicle->statusVehicles->status_name }}
-        {{ $vehicle->conditions->condition_name }} --}}
-
-    </div>
-    <div class="mt-4">
-        {{ $vehicles->links() }}
     </div>
 </div>

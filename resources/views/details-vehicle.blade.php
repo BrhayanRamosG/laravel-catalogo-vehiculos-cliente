@@ -11,6 +11,7 @@
                     @foreach ($detailVehicle as $vehicle)
                         <h1 class="text-4xl text-sky-700 font-bold">
                             {{ $vehicle->makeModels->makes->make_name }} {{ $vehicle->makeModels->model_name }}
+                            {{ $vehicle->year }}
                         </h1>
                         <p class="text-2xl">
                             {{ $vehicle->id }}

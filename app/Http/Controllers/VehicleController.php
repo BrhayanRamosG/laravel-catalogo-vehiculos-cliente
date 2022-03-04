@@ -14,8 +14,6 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        // $vehicles = Vehicle::all();
-        // return view('vehicles', compact('vehicles'));
     }
 
     /**
@@ -33,7 +31,7 @@ class VehicleController extends Controller
             'statusVehicles',
             'conditions',
             'makeModels.makes'
-        ])->where('id', '=', $id)->where('categories_id', '=', $category)->get();
+        ])->join('categories', 'categories.id', '=', 'vehicles.categories_id')->where('vehicles.slug', '=', $id)->where('categories.slug', '=', $category)->get();
 
         return view('details-vehicle', compact('detailVehicle'));
     }
